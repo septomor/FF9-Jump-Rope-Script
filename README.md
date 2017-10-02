@@ -2,9 +2,13 @@
 
 
 // Made 9/24/17, by Septomor/ByPrinciple
+
 //
+
 // This script is used to help get people the Final Fantasy 9 Hail to the King trophy on PS4
+
 // 
+
 // How to use:
 //  1. Have Vivi talk to the girls and standing ready to take his first jump
 //  2. Run jump.ahk by double clicking 
