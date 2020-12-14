@@ -319,7 +319,7 @@ Loop, %remotePlay_id%
 {
   id := remotePlay_id%A_Index%
   WinGetTitle, title, % "ahk_id " id
-  If InStr(title, "PS4")
+  If InStr(title, "PS Remote Play")
     break
 }	
 WinGetClass, remotePlay_class, ahk_id %id%
