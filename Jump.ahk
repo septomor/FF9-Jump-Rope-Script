@@ -4,7 +4,7 @@ DetectHiddenWindows, On
 
 buttonToPress := "Enter"
 
-; --------- Constants 
+; --------- Constants
 ; jump intervals
 a = 667
 b = 532
@@ -17,7 +17,7 @@ g = 400
 g2 = 401
 
 latency = 710
-script = 1
+script = 2
 ; ---------- Gui Setup -------------
 Gui, -MaximizeBox
 Gui, -MinimizeBox
@@ -27,15 +27,16 @@ Gui, Color, c282a36, c6272a4
 Gui, Add, Button, x15 y10 w70 default, Start
 Gui, Add, Button, x15 y40 w70 default gVariableWindow, Variables
 Gui, Font, ce8dfe3 s9 w550 Bold
-Gui, Add, GroupBox, x90 y10 w120 h60, Button to press
+Gui, Add, GroupBox, x90 y10 w205 h60, Button to press
 Gui, Font, c758eff Bold, Verdana
 Gui, Add, Radio, x100 y28 Checked altsubmit gButtonChange vButtonChoice group, X
 Gui, Font, cff5754 Bold, Verdana
 Gui, Add, Radio, altsubmit gButtonChange,  O
 Gui, Font, ce8dfe3 s8 w550 Bold
-Gui, Add, GroupBox, x15 y70 w190 h40, Script
-Gui, Add, Radio, x25 y90 Checked altSubmit gScriptChange vScriptChoice group, QueueTip
-Gui, Add, Radio, x115 y90 altSubmit gScriptChange, Septomor
+Gui, Add, GroupBox, x15 y70 w280 h40, Script
+Gui, Add, Radio, x25 y90 altSubmit gScriptChange vScriptChoice group, QueueTip
+Gui, Add, Radio, x115 y90 Checked altSubmit gScriptChange, Septomor
+Gui, Add, Radio, x210 y90 altSubmit gScriptChange, hawkiq
 ;--------- Gui 2 Setup --------------
 Gui, 2: Color, c535770, c6272a4
 Gui, 2: Font, c11f s9 Bold
@@ -56,9 +57,9 @@ Gui, 2: Font, ccc3429 s9 Bold
 Gui, 2: Add, Text, x100 y120, Latency
 Gui, 2: Font, c11f s9 Bold
 Gui, 2: Add, Edit, w40 x100 y135 vLat, %latency%
-Gui, 2: Add, Button, x20  y192 gSaveVars, Save 
-Gui, 2: Add, Button, x100 y192 gVarDef, Defaults 
-Gui, Show,w220 h120,  Vivi Jumps QueueTip + Sept
+Gui, 2: Add, Button, x20  y192 gSaveVars, Save
+Gui, 2: Add, Button, x100 y192 gVarDef, Defaults
+Gui, Show,w300 h120,  Vivi Jumps + Bloodlust
 return
 
 VariableWindow:
@@ -112,6 +113,8 @@ if(script = 1)
 	gosub, QueueTipS
 else if(script = 2)
 	gosub, SeptS
+else if(script = 3)
+	gosub, HawkiqS
 ; ---------- Gui Setup End-------------
 
 ; ---------- Jump Loop -------------
@@ -157,7 +160,7 @@ start := A_TickCount + 50
 
 loop
 {
-	
+
 	; Detect if failed and back at the start to retry
 	PixelSearch, x, y, 644, 535, 644, 535, %failColor%, 20, Fast RGB
     	If (ErrorLevel != 0) { ; reset
@@ -171,7 +174,7 @@ loop
 	}
 
     Gosub, timings
-	Gosub, jump	
+	Gosub, jump
 }
 }
 
@@ -219,7 +222,7 @@ Send {%buttonToPress% up}
 Sleep, %latency%
 loop
 {
-		
+
 	; Detect if failed and back at the start to retry
 	PixelSearch, x, y, 644, 535, 644, 535, %failColor%, 20, Fast RGB
     	If (ErrorLevel != 0) { ; reset
@@ -296,6 +299,63 @@ return
 ; ---------- Jump Loop End-------------
 
 
+; ---------- Pressing X after Battle -------------
+; ------- Hawkiq Bloodlust Script
+HawkiqS:
+loop{
+delay = 1000
+ToolTip, Bloodlust Start by : hawkiq, 450,310
+Sleep, 2000
+ToolTip, ctrl + Esc to stop Script, 410,440
+SendMode, Input
+
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, 100
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 100
+Send {%buttonToPress% up}
+Sleep, delay
+Send, {%buttonToPress% down}
+Sleep, 500
+}
+
+; ---------- Pressing X after Battle -------------
+
+
 ButtonChange:
 Gui, submit, nohide
 if (ButtonChoice = 1)
@@ -321,7 +381,7 @@ Loop, %remotePlay_id%
   WinGetTitle, title, % "ahk_id " id
   If InStr(title, "PS Remote Play")
     break
-}	
+}
 WinGetClass, remotePlay_class, ahk_id %id%
 WinMove, ahk_id %id%,, 0, 0, 1440, 900
 ControlFocus,, ahk_class %remotePlay_class%
@@ -337,6 +397,10 @@ if (ScriptChoice = 1)
 if (ScriptChoice = 2)
 {
 	script = 2
+}
+if (ScriptChoice = 3)
+{
+	script = 3
 }
 return
 
